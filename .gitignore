@@ -1,0 +1,17 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Environment variables
+.env
+
+# Production builds
+dist/
+build/
+.next/
+out/
+
+# TypeScript cache
+tsconfig.tsbuildinfo
+
