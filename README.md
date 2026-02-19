@@ -1,1 +1,1 @@
-# sidecar-indexer
+# Sidecar indexer
