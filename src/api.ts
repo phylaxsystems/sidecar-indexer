@@ -51,11 +51,7 @@ const ProcessorStatusPlugin: Plugin = makeExtendSchemaPlugin(
                 e instanceof Error &&
                 e.message.includes("does not exist")
               ) {
-                return schemas.map((s) => ({
-                  name: s,
-                  height: -1,
-                  hash: "0x",
-                }));
+                return [];
               }
               throw e;
             }
