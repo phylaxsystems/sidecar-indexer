@@ -6,8 +6,8 @@ import type * as pg from "pg";
 import {
   gql,
   makeExtendSchemaPlugin,
+  type Plugin,
   postgraphile,
-  Plugin,
 } from "postgraphile";
 import FilterPlugin from "postgraphile-plugin-connection-filter";
 
@@ -34,29 +34,28 @@ const ProcessorStatusPlugin: Plugin = makeExtendSchemaPlugin(
           squidStatus: async (
             _parentObject: unknown,
             _args: unknown,
-            context: { pgClient: pg.Client }
+            context: { pgClient: pg.Client },
           ) => {
             const { rows } = await context.pgClient.query(
               schemas
                 .map(
-                  (s) =>
-                    `SELECT '${s}' as name, height, hash FROM ${s}.status`
+                  (s) => `SELECT '${s}' as name, height, hash FROM ${s}.status`,
                 )
-                .join(" UNION ALL ")
+                .join(" UNION ALL "),
             );
             return rows || [];
           },
         },
       },
     };
-  }
+  },
 );
 
 app.use(
   postgraphile(
     {
       host: process.env.DB_HOST || "localhost",
-      port: process.env.DB_PORT ? parseInt(process.env.DB_PORT) : 5432,
+      port: process.env.DB_PORT ? parseInt(process.env.DB_PORT, 10) : 5432,
       database: process.env.DB_NAME || "squid",
       user: process.env.DB_USER || "postgres",
       password: process.env.DB_PASS || "postgres",
@@ -78,8 +77,8 @@ app.use(
       graphileBuildOptions: {
         stateSchemas: ["squid_processor"],
       },
-    }
-  )
+    },
+  ),
 );
 
 const port = process.env.GRAPHQL_SERVER_PORT || 4350;

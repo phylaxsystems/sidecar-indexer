@@ -9,11 +9,10 @@ if (!STATE_ORACLE_ADDRESS)
   throw new Error("STATE_ORACLE_ADDRESS env var is required");
 
 const deploymentBlock = Number(
-  process.env.STATE_ORACLE_DEPLOYMENT_BLOCK ?? "0"
+  process.env.STATE_ORACLE_DEPLOYMENT_BLOCK ?? "0",
 );
-const finalityConfirmation = Number(
-  process.env.FINALITY_CONFIRMATION ?? "64"
-);
+
+const finalityConfirmation = Number(process.env.FINALITY_CONFIRMATION ?? "64");
 
 export const processor = new EvmBatchProcessor()
   .setRpcEndpoint(RPC_ENDPOINT)

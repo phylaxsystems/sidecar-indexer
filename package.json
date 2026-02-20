@@ -2,6 +2,8 @@
   "name": "sidecar-indexer",
   "private": true,
   "scripts": {
+    "lint": "biome check .",
+    "lint:fix": "biome check --write .",
     "build": "pnpm run typegen && pnpm run codegen && rm -rf lib && tsc",
     "start": "node --require=dotenv/config lib/main.js",
     "serve": "node --require=dotenv/config lib/api.js",
@@ -39,6 +41,7 @@
     "typeorm": "^0.3.28"
   },
   "devDependencies": {
+    "@biomejs/biome": "^2.4.3",
     "@subsquid/evm-typegen": "^4.6.0",
     "@subsquid/typeorm-codegen": "^2.0.2",
     "@types/express": "^5.0.6",
