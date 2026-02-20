@@ -36,15 +36,29 @@ const ProcessorStatusPlugin: Plugin = makeExtendSchemaPlugin(
             _args: unknown,
             context: { pgClient: pg.Client }
           ) => {
-            const { rows } = await context.pgClient.query(
-              schemas
-                .map(
-                  (s) =>
-                    `SELECT '${s}' as name, height, hash FROM ${s}.status`
-                )
-                .join(" UNION ALL ")
-            );
-            return rows || [];
+            try {
+              const { rows } = await context.pgClient.query(
+                schemas
+                  .map(
+                    (s) =>
+                      `SELECT '${s}' as name, height, hash FROM ${s}.status`
+                  )
+                  .join(" UNION ALL ")
+              );
+              return rows || [];
+            } catch (e: unknown) {
+              if (
+                e instanceof Error &&
+                e.message.includes("does not exist")
+              ) {
+                return schemas.map((s) => ({
+                  name: s,
+                  height: -1,
+                  hash: "0x",
+                }));
+              }
+              throw e;
+            }
           },
         },
       },
