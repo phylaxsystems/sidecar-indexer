@@ -17,7 +17,7 @@ services:
     build:
       context: ../../
       dockerfile: Dockerfile
-    command: ["sh", "-c", "npx squid-typeorm-migration apply && node lib/main.js"]
+    command: ["sh", "-c", "npx sqd migration:apply && npx sqd start"]
     env_file: ../../.env
     environment:
       DB_HOST: db
@@ -29,7 +29,7 @@ services:
     build:
       context: ../../
       dockerfile: Dockerfile
-    command: ["node", "lib/api.js"]
+    command: ["npx", "sqd", "serve"]
     env_file: ../../.env
     environment:
       DB_HOST: db
