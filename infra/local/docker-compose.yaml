@@ -17,7 +17,7 @@ services:
     build:
       context: ../../
       dockerfile: Dockerfile
-    command: ["sh", "-c", "npx sqd migration:apply && npx sqd start"]
+    command: ["sh", "-c", "sqd migration:apply && sqd start"]
     env_file: ../../.env
     environment:
       DB_HOST: db
@@ -29,7 +29,7 @@ services:
     build:
       context: ../../
       dockerfile: Dockerfile
-    command: ["npx", "sqd", "serve"]
+    command: ["sqd", "serve"]
     env_file: ../../.env
     environment:
       DB_HOST: db

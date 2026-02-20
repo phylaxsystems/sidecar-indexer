@@ -25,3 +25,5 @@ RUN pnpm install --frozen-lockfile --prod
 COPY --from=build /app/lib/ lib/
 COPY db/migrations/ db/migrations/
 COPY commands.json ./
+
+ENV PATH="/app/node_modules/.bin:$PATH"
