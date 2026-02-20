@@ -1,0 +1,608 @@
+[
+  {
+    "type": "constructor",
+    "inputs": [
+      {
+        "name": "assertionTimelockBlocks",
+        "type": "uint128",
+        "internalType": "uint128"
+      },
+      { "name": "daVerifier", "type": "address", "internalType": "address" },
+      {
+        "name": "maxAssertionsPerAA",
+        "type": "uint32",
+        "internalType": "uint32"
+      }
+    ],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "ASSERTION_TIMELOCK_BLOCKS",
+    "inputs": [],
+    "outputs": [{ "name": "", "type": "uint128", "internalType": "uint128" }],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "DA_VERIFIER",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "contract IDAVerifier"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "MAX_ASSERTIONS_PER_AA",
+    "inputs": [],
+    "outputs": [{ "name": "", "type": "uint128", "internalType": "uint128" }],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "acceptManagerTransfer",
+    "inputs": [
+      {
+        "name": "contractAddress",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "addAdminVerifier",
+    "inputs": [
+      {
+        "name": "adminVerifier",
+        "type": "address",
+        "internalType": "contract IAdminVerifier"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "addAssertion",
+    "inputs": [
+      {
+        "name": "contractAddress",
+        "type": "address",
+        "internalType": "address"
+      },
+      { "name": "assertionId", "type": "bytes32", "internalType": "bytes32" },
+      { "name": "metadata", "type": "bytes", "internalType": "bytes" },
+      { "name": "proof", "type": "bytes", "internalType": "bytes" }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "adminVerifiers",
+    "inputs": [
+      {
+        "name": "adminVerifier",
+        "type": "address",
+        "internalType": "contract IAdminVerifier"
+      }
+    ],
+    "outputs": [
+      { "name": "isRegistered", "type": "bool", "internalType": "bool" }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "assertionAdopters",
+    "inputs": [{ "name": "", "type": "address", "internalType": "address" }],
+    "outputs": [
+      { "name": "manager", "type": "address", "internalType": "address" },
+      {
+        "name": "pendingManager",
+        "type": "address",
+        "internalType": "address"
+      },
+      { "name": "assertionCount", "type": "uint32", "internalType": "uint32" }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "batch",
+    "inputs": [
+      { "name": "calls", "type": "bytes[]", "internalType": "bytes[]" }
+    ],
+    "outputs": [],
+    "stateMutability": "payable"
+  },
+  {
+    "type": "function",
+    "name": "cancelOwnershipHandover",
+    "inputs": [],
+    "outputs": [],
+    "stateMutability": "payable"
+  },
+  {
+    "type": "function",
+    "name": "completeOwnershipHandover",
+    "inputs": [
+      { "name": "pendingOwner", "type": "address", "internalType": "address" }
+    ],
+    "outputs": [],
+    "stateMutability": "payable"
+  },
+  {
+    "type": "function",
+    "name": "getAssertionWindow",
+    "inputs": [
+      {
+        "name": "contractAddress",
+        "type": "address",
+        "internalType": "address"
+      },
+      { "name": "assertionId", "type": "bytes32", "internalType": "bytes32" }
+    ],
+    "outputs": [
+      {
+        "name": "activationBlock",
+        "type": "uint128",
+        "internalType": "uint128"
+      },
+      {
+        "name": "deactivationBlock",
+        "type": "uint128",
+        "internalType": "uint128"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getManager",
+    "inputs": [
+      {
+        "name": "contractAddress",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [
+      { "name": "manager", "type": "address", "internalType": "address" }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getPendingManager",
+    "inputs": [
+      {
+        "name": "contractAddress",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "pendingManager",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "hasAssertion",
+    "inputs": [
+      {
+        "name": "contractAddress",
+        "type": "address",
+        "internalType": "address"
+      },
+      { "name": "assertionId", "type": "bytes32", "internalType": "bytes32" }
+    ],
+    "outputs": [
+      { "name": "isAssociated", "type": "bool", "internalType": "bool" }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "initialize",
+    "inputs": [
+      { "name": "admin", "type": "address", "internalType": "address" },
+      {
+        "name": "_adminVerifiers",
+        "type": "address[]",
+        "internalType": "contract IAdminVerifier[]"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "isAdminVerifierRegistered",
+    "inputs": [
+      {
+        "name": "adminVerifier",
+        "type": "address",
+        "internalType": "contract IAdminVerifier"
+      }
+    ],
+    "outputs": [
+      { "name": "isRegistered", "type": "bool", "internalType": "bool" }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "owner",
+    "inputs": [],
+    "outputs": [
+      { "name": "result", "type": "address", "internalType": "address" }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "ownershipHandoverExpiresAt",
+    "inputs": [
+      { "name": "pendingOwner", "type": "address", "internalType": "address" }
+    ],
+    "outputs": [
+      { "name": "result", "type": "uint256", "internalType": "uint256" }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "registerAssertionAdopter",
+    "inputs": [
+      {
+        "name": "contractAddress",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "adminVerifier",
+        "type": "address",
+        "internalType": "contract IAdminVerifier"
+      },
+      { "name": "data", "type": "bytes", "internalType": "bytes" }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "removeAdminVerifier",
+    "inputs": [
+      {
+        "name": "adminVerifier",
+        "type": "address",
+        "internalType": "contract IAdminVerifier"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "removeAssertion",
+    "inputs": [
+      {
+        "name": "contractAddress",
+        "type": "address",
+        "internalType": "address"
+      },
+      { "name": "assertionId", "type": "bytes32", "internalType": "bytes32" }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "removeAssertionByOwner",
+    "inputs": [
+      {
+        "name": "contractAddress",
+        "type": "address",
+        "internalType": "address"
+      },
+      { "name": "assertionId", "type": "bytes32", "internalType": "bytes32" }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "renounceOwnership",
+    "inputs": [],
+    "outputs": [],
+    "stateMutability": "payable"
+  },
+  {
+    "type": "function",
+    "name": "requestOwnershipHandover",
+    "inputs": [],
+    "outputs": [],
+    "stateMutability": "payable"
+  },
+  {
+    "type": "function",
+    "name": "revokeManager",
+    "inputs": [
+      {
+        "name": "contractAddress",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "transferManager",
+    "inputs": [
+      {
+        "name": "contractAddress",
+        "type": "address",
+        "internalType": "address"
+      },
+      { "name": "newManager", "type": "address", "internalType": "address" }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "transferOwnership",
+    "inputs": [
+      { "name": "newOwner", "type": "address", "internalType": "address" }
+    ],
+    "outputs": [],
+    "stateMutability": "payable"
+  },
+  {
+    "type": "event",
+    "name": "AdminVerifierAdded",
+    "inputs": [
+      {
+        "name": "adminVerifier",
+        "type": "address",
+        "indexed": false,
+        "internalType": "contract IAdminVerifier"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "AdminVerifierRemoved",
+    "inputs": [
+      {
+        "name": "adminVerifier",
+        "type": "address",
+        "indexed": false,
+        "internalType": "contract IAdminVerifier"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "AssertionAdded",
+    "inputs": [
+      {
+        "name": "assertionAdopter",
+        "type": "address",
+        "indexed": false,
+        "internalType": "address"
+      },
+      {
+        "name": "assertionId",
+        "type": "bytes32",
+        "indexed": false,
+        "internalType": "bytes32"
+      },
+      {
+        "name": "activationBlock",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "AssertionAdopterAdded",
+    "inputs": [
+      {
+        "name": "contractAddress",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "manager",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "adminVerifier",
+        "type": "address",
+        "indexed": false,
+        "internalType": "contract IAdminVerifier"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "AssertionRemoved",
+    "inputs": [
+      {
+        "name": "assertionAdopter",
+        "type": "address",
+        "indexed": false,
+        "internalType": "address"
+      },
+      {
+        "name": "assertionId",
+        "type": "bytes32",
+        "indexed": false,
+        "internalType": "bytes32"
+      },
+      {
+        "name": "deactivationBlock",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "Initialized",
+    "inputs": [
+      {
+        "name": "version",
+        "type": "uint64",
+        "indexed": false,
+        "internalType": "uint64"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "ManagerTransferRequested",
+    "inputs": [
+      {
+        "name": "contractAddress",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "manager",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "newManager",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "ManagerTransferred",
+    "inputs": [
+      {
+        "name": "contractAddress",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "newManager",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "OwnershipHandoverCanceled",
+    "inputs": [
+      {
+        "name": "pendingOwner",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "OwnershipHandoverRequested",
+    "inputs": [
+      {
+        "name": "pendingOwner",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "OwnershipTransferred",
+    "inputs": [
+      {
+        "name": "oldOwner",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "newOwner",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      }
+    ],
+    "anonymous": false
+  },
+  { "type": "error", "name": "AdminVerifierAlreadyRegistered", "inputs": [] },
+  { "type": "error", "name": "AdminVerifierNotRegistered", "inputs": [] },
+  { "type": "error", "name": "AlreadyInitialized", "inputs": [] },
+  {
+    "type": "error",
+    "name": "AssertionAdopterAlreadyRegistered",
+    "inputs": []
+  },
+  { "type": "error", "name": "AssertionAdopterNotRegistered", "inputs": [] },
+  { "type": "error", "name": "AssertionAlreadyExists", "inputs": [] },
+  { "type": "error", "name": "AssertionDoesNotExist", "inputs": [] },
+  {
+    "type": "error",
+    "name": "BatchError",
+    "inputs": [{ "name": "result", "type": "bytes", "internalType": "bytes" }]
+  },
+  { "type": "error", "name": "InvalidAssertionTimelock", "inputs": [] },
+  { "type": "error", "name": "InvalidInitialization", "inputs": [] },
+  { "type": "error", "name": "InvalidManagerTransferRequest", "inputs": [] },
+  { "type": "error", "name": "InvalidProof", "inputs": [] },
+  { "type": "error", "name": "NewOwnerIsZeroAddress", "inputs": [] },
+  { "type": "error", "name": "NoHandoverRequest", "inputs": [] },
+  { "type": "error", "name": "NoPendingManager", "inputs": [] },
+  { "type": "error", "name": "NotInitializing", "inputs": [] },
+  { "type": "error", "name": "TooManyAssertions", "inputs": [] },
+  { "type": "error", "name": "Unauthorized", "inputs": [] },
+  { "type": "error", "name": "UnauthorizedManager", "inputs": [] },
+  { "type": "error", "name": "UnauthorizedRegistrant", "inputs": [] }
+]
