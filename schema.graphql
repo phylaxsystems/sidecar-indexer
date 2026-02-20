@@ -1,0 +1,17 @@
+type AssertionAdded @entity {
+  id: ID!
+  block: Int! @index
+  txHash: String!
+  assertionAdopter: String! @index
+  assertionId: String! @index
+  activationBlock: BigInt!
+}
+
+type AssertionRemoved @entity {
+  id: ID!
+  block: Int! @index
+  txHash: String!
+  assertionAdopter: String! @index
+  assertionId: String! @index
+  deactivationBlock: BigInt!
+}
