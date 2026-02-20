@@ -7,4 +7,35 @@ services:
     ports:
       - "5432:5432"
     shm_size: 1gb
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  indexer:
+    build:
+      context: ../../
+      dockerfile: Dockerfile
+    command: ["sh", "-c", "npx squid-typeorm-migration apply && node lib/main.js"]
+    env_file: ../../.env
+    environment:
+      DB_HOST: db
+    depends_on:
+      db:
+        condition: service_healthy
+
+  api:
+    build:
+      context: ../../
+      dockerfile: Dockerfile
+    command: ["node", "lib/api.js"]
+    env_file: ../../.env
+    environment:
+      DB_HOST: db
+    ports:
+      - "4350:4350"
+    depends_on:
+      db:
+        condition: service_healthy
 

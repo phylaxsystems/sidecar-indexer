@@ -24,5 +24,3 @@ RUN pnpm install --frozen-lockfile --prod
 
 COPY --from=build /app/lib/ lib/
 COPY db/migrations/ db/migrations/
-
-CMD ["sh", "-c", "pnpm run migration:apply && pnpm run start"]
