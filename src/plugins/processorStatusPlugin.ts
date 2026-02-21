@@ -1,5 +1,5 @@
 import type * as pg from "pg";
-import { gql, makeExtendSchemaPlugin, Plugin } from "postgraphile";
+import { gql, makeExtendSchemaPlugin, type Plugin } from "postgraphile";
 
 export const ProcessorStatusPlugin: Plugin = makeExtendSchemaPlugin(
   (_build, options) => {
@@ -25,16 +25,15 @@ export const ProcessorStatusPlugin: Plugin = makeExtendSchemaPlugin(
           _meta: async (
             _parentObject: unknown,
             _args: unknown,
-            context: { pgClient: pg.Client }
+            context: { pgClient: pg.Client },
           ) => {
             try {
               const { rows } = await context.pgClient.query(
                 schemas
                   .map(
-                    (s) =>
-                      `SELECT height, hash FROM ${s}.status WHERE id = 0`
+                    (s) => `SELECT height, hash FROM ${s}.status WHERE id = 0`,
                   )
-                  .join(" UNION ALL ")
+                  .join(" UNION ALL "),
               );
               const row = rows[0];
               if (!row || row.height < 0) {
@@ -42,10 +41,7 @@ export const ProcessorStatusPlugin: Plugin = makeExtendSchemaPlugin(
               }
               return { block: { number: row.height, hash: row.hash } };
             } catch (e: unknown) {
-              if (
-                e instanceof Error &&
-                e.message.includes("does not exist")
-              ) {
+              if (e instanceof Error && e.message.includes("does not exist")) {
                 return { block: null };
               }
               throw e;
@@ -54,5 +50,5 @@ export const ProcessorStatusPlugin: Plugin = makeExtendSchemaPlugin(
         },
       },
     };
-  }
+  },
 );

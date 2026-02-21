@@ -1,8 +1,8 @@
 import { TypeormDatabase } from "@subsquid/typeorm-store";
-import { processor } from "./processor.js";
 import { events } from "./abi/StateOracle.js";
 import { AssertionAdded } from "./model/generated/assertionAdded.model.js";
 import { AssertionRemoved } from "./model/generated/assertionRemoved.model.js";
+import { processor } from "./processor.js";
 
 const db = new TypeormDatabase({ supportHotBlocks: false });
 
@@ -22,7 +22,7 @@ processor.run(db, async (ctx) => {
             assertionAdopter: decoded.assertionAdopter,
             assertionId: decoded.assertionId,
             activationBlock: decoded.activationBlock,
-          })
+          }),
         );
         ctx.log.info(
           {
@@ -30,7 +30,7 @@ processor.run(db, async (ctx) => {
             adopter: decoded.assertionAdopter,
             assertionId: decoded.assertionId,
           },
-          "AssertionAdded"
+          "AssertionAdded",
         );
       }
 
@@ -44,7 +44,7 @@ processor.run(db, async (ctx) => {
             assertionAdopter: decoded.assertionAdopter,
             assertionId: decoded.assertionId,
             deactivationBlock: decoded.deactivationBlock,
-          })
+          }),
         );
         ctx.log.info(
           {
@@ -52,7 +52,7 @@ processor.run(db, async (ctx) => {
             adopter: decoded.assertionAdopter,
             assertionId: decoded.assertionId,
           },
-          "AssertionRemoved"
+          "AssertionRemoved",
         );
       }
     }
