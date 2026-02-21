@@ -2,55 +2,11 @@ import AggregatesPlugin from "@graphile/pg-aggregates";
 import SimplifyInflectorPlugin from "@graphile-contrib/pg-simplify-inflector";
 import express from "express";
 import { NodePlugin } from "graphile-build";
-import type * as pg from "pg";
-import {
-  gql,
-  makeExtendSchemaPlugin,
-  postgraphile,
-  Plugin,
-} from "postgraphile";
+import { postgraphile } from "postgraphile";
 import FilterPlugin from "postgraphile-plugin-connection-filter";
+import { ProcessorStatusPlugin } from "./plugins/processorStatusPlugin.js";
 
 const app = express();
-
-const ProcessorStatusPlugin: Plugin = makeExtendSchemaPlugin(
-  (_build, options) => {
-    const schemas: string[] = options.stateSchemas || ["squid_processor"];
-
-    return {
-      typeDefs: gql`
-        type _ProcessorStatus {
-          name: String!
-          height: Int!
-          hash: String!
-        }
-
-        extend type Query {
-          squidStatus: [_ProcessorStatus!]!
-        }
-      `,
-      resolvers: {
-        Query: {
-          squidStatus: async (
-            _parentObject: unknown,
-            _args: unknown,
-            context: { pgClient: pg.Client }
-          ) => {
-            const { rows } = await context.pgClient.query(
-              schemas
-                .map(
-                  (s) =>
-                    `SELECT '${s}' as name, height, hash FROM ${s}.status`
-                )
-                .join(" UNION ALL ")
-            );
-            return rows || [];
-          },
-        },
-      },
-    };
-  }
-);
 
 app.use(
   postgraphile(
