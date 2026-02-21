@@ -1,0 +1,41 @@
+{
+  "$schema": "https://cdn.subsquid.io/schemas/commands.json",
+  "commands": {
+    "build": {
+      "description": "Build the project (typegen + codegen + tsc)",
+      "cmd": ["pnpm", "run", "build"]
+    },
+    "start": {
+      "description": "Start the indexer",
+      "cmd": ["node", "--require=dotenv/config", "lib/main.js"]
+    },
+    "serve": {
+      "description": "Start the GraphQL API server",
+      "cmd": ["node", "--require=dotenv/config", "lib/api.js"]
+    },
+    "typegen": {
+      "description": "Generate typed ABI decoders from abi/StateOracle.json",
+      "cmd": ["pnpm", "run", "typegen"]
+    },
+    "codegen": {
+      "description": "Generate TypeORM models from schema.graphql",
+      "cmd": ["pnpm", "run", "codegen"]
+    },
+    "migration:apply": {
+      "description": "Apply pending database migrations",
+      "cmd": ["squid-typeorm-migration", "apply"]
+    },
+    "migration:generate": {
+      "description": "Generate a DB migration for schema changes",
+      "cmd": ["squid-typeorm-migration", "generate"]
+    },
+    "migration:clean": {
+      "description": "Remove all database migrations",
+      "cmd": ["rm", "-rf", "db/migrations"]
+    },
+    "migration:reset": {
+      "description": "Drop migrations, rebuild, and regenerate from scratch",
+      "cmd": ["pnpm", "run", "migration:reset"]
+    }
+  }
+}
