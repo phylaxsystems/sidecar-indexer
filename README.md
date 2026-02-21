@@ -30,6 +30,10 @@ pnpm run migration:apply
 
 # Start the indexer
 pnpm run start
+
+# In another terminal: start the GraphQL API server
+pnpm run serve
+# Open http://localhost:4350/graphiql for the GraphiQL playground
 ```
 
 ## Scripts
@@ -38,6 +42,7 @@ pnpm run start
 |---|---|
 | `build` | Generate code + compile TypeScript |
 | `start` | Run the indexer |
+| `serve` | Start the GraphQL API server (PostGraphile) |
 | `typegen` | Regenerate typed ABI decoders from `abi/StateOracle.json` into `src/abi/` |
 | `codegen` | Regenerate TypeORM models from `schema.graphql` into `src/model/` |
 | `migration:generate` | Generate a new DB migration from model changes |
@@ -51,6 +56,7 @@ abi/StateOracle.json     # Source ABI (input for typegen)
 schema.graphql           # Entity definitions (input for codegen)
 src/
   main.ts                # Entry point: batch handler that decodes and stores events
+  api.ts                 # PostGraphile GraphQL API server
   processor.ts           # Subsquid EvmBatchProcessor configuration
   abi/                   # Generated typed event decoders (gitignored)
   model/                 # Generated TypeORM entities (gitignored)
@@ -71,4 +77,5 @@ See [`infra/local/.env.example`](infra/local/.env.example) for all available var
 | `STATE_ORACLE_DEPLOYMENT_BLOCK` | No | Block to start indexing from (default: 0) |
 | `FINALITY_CONFIRMATION` | No | Reorg safety depth in blocks (default: 64) |
 | `SQD_GATEWAY` | No | Subsquid Network gateway for faster historical sync |
+| `GRAPHQL_SERVER_PORT` | No | Port for the GraphQL API server (default: 4350) |
 | `DB_*` | No | PostgreSQL connection (defaults match docker-compose) |
