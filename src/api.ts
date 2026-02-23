@@ -33,6 +33,7 @@ app.use(
       ],
       graphileBuildOptions: {
         stateSchemas: ["squid_processor"],
+        connectionFilterAllowEmptyObjectInput: true,
       },
     },
   ),
