@@ -29,7 +29,7 @@ services:
     build:
       context: ../../
       dockerfile: Dockerfile
-    command: ["sqd", "serve"]
+    command: ["sh", "-c", "sqd migration:apply && sqd serve"]
     env_file: ../../.env
     environment:
       DB_HOST: db
