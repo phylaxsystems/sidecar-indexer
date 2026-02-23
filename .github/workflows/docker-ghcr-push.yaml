@@ -1,0 +1,58 @@
+name: Docker GHCR Push
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version tag for Docker images (e.g. 1.0.3-patch). If not provided, will detect from package.json changes."
+        required: false
+        type: string
+
+permissions:
+  packages: write
+  contents: read
+  id-token: write
+
+jobs:
+  get-version:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.determine-version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - name: Determine version tag
+        id: determine-version
+        run: |
+          # Use manual input if provided
+          if [ -n "${{ inputs.version }}" ]; then
+            VERSION="${{ inputs.version }}"
+            echo "Using manually specified version: $VERSION"
+            echo "version=$VERSION" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+
+          # Otherwise detect from package.json changes
+          OLD_VERSION=$(git show HEAD~1:package.json 2>/dev/null | grep -m 1 '"version"' | cut -d '"' -f4)
+          NEW_VERSION=$(grep -m 1 '"version"' package.json | cut -d '"' -f4)                                                                                                                                               
+                                                                                                                                                                                                                   
+          if [ -n "$NEW_VERSION" ] && [ "$OLD_VERSION" != "$NEW_VERSION" ]; then
+            VERSION="$NEW_VERSION"
+            echo "Version changed in package.json from $OLD_VERSION to $NEW_VERSION"
+          else
+            VERSION="${{ github.sha }}"
+            echo "Version unchanged, falling back to commit SHA: $VERSION"
+          fi
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+  docker-ghcr-push-sidecar-indexer:
+    needs: get-version
+    uses: phylaxsystems/actions/.github/workflows/release-docker-ghcr-nodejs.yaml@main
+    with:
+      app-name: sidecar-indexer
+      node-version: "22.14"
+      dockerfile-path: Dockerfile
+      version-tag: ${{ needs.get-version.outputs.version }}
