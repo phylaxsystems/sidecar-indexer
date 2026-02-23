@@ -13,23 +13,11 @@ services:
       timeout: 5s
       retries: 5
 
-  indexer:
-    build:
-      context: ../../
-      dockerfile: Dockerfile
-    command: ["sh", "-c", "sqd migration:apply && sqd start"]
-    env_file: ../../.env
-    environment:
-      DB_HOST: db
-    depends_on:
-      db:
-        condition: service_healthy
-
   api:
     build:
       context: ../../
       dockerfile: Dockerfile
-    command: ["sqd", "serve"]
+    command: ["sh", "-c", "sqd migration:apply && sqd serve"]
     env_file: ../../.env
     environment:
       DB_HOST: db
@@ -38,4 +26,20 @@ services:
     depends_on:
       db:
         condition: service_healthy
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:4350/graphql',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({query:'{__typename}'})}).then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
 
+  indexer:
+    build:
+      context: ../../
+      dockerfile: Dockerfile
+    command: ["sqd", "start"]
+    env_file: ../../.env
+    environment:
+      DB_HOST: db
+    depends_on:
+      api:
+        condition: service_healthy
