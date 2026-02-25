@@ -98,6 +98,7 @@ pnpm run serve
     nodes {
       id
       block
+      logIndex
       assertionId
     }
   }
