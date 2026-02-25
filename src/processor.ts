@@ -23,6 +23,7 @@ export const processor = new EvmBatchProcessor()
       data: true,
       address: true,
       transactionHash: true,
+      logIndex: true,
     },
   })
   .setBlockRange({ from: deploymentBlock })

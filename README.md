@@ -16,11 +16,29 @@ cp infra/local/.env.example .env
 # Edit .env with your RPC endpoint and contract address
 ```
 
-## Run
+## Run (Docker)
 
 ```bash
-# Start PostgreSQL
-docker compose -f infra/local/docker-compose.yaml up -d
+# Stop any previous instance and wipe volumes
+docker compose -f infra/local/docker-compose.yaml down -v
+
+# Build and start all services
+docker compose -f infra/local/docker-compose.yaml up --build
+```
+
+Startup order (handled by docker-compose healthchecks):
+
+1. **db** — PostgreSQL starts and becomes healthy (`pg_isready`)
+2. **api** — Applies migrations, then starts the GraphQL server on port 4350. Healthy once the GraphQL endpoint responds.
+3. **indexer** — Starts only after the API is healthy. Begins indexing events from the RPC endpoint.
+
+Open http://localhost:4350/graphiql for the GraphiQL playground.
+
+## Run (Manual)
+
+```bash
+# Start PostgreSQL only
+docker compose -f infra/local/docker-compose.yaml up db -d
 
 # Build (generates typed ABI decoders + TypeORM models, then compiles)
 pnpm run build
@@ -33,7 +51,94 @@ pnpm run start
 
 # In another terminal: start the GraphQL API server
 pnpm run serve
-# Open http://localhost:4350/graphiql for the GraphiQL playground
+```
+
+## GraphQL Queries
+
+**List all available query fields:**
+```graphql
+{
+  __schema {
+    queryType {
+      fields { name }
+    }
+  }
+}
+```
+
+**Fetch all AssertionAdded events:**
+```graphql
+{
+  assertionAddeds {
+    totalCount
+    nodes {
+      id
+      block
+      txHash
+      logIndex
+      assertionAdopter
+      assertionId
+      activationBlock
+    }
+  }
+}
+```
+
+**Filter by assertion adopter:**
+```graphql
+{
+  assertionAddeds(
+    filter: {
+      assertionAdopter: {
+        equalTo: "0x7353086583b9e2bbf612f7cdb5d213106b4cfcb7"
+      }
+    }
+  ) {
+    totalCount
+    nodes {
+      id
+      block
+      assertionId
+    }
+  }
+}
+```
+
+**Filter by assertion ID and adopter:**
+```graphql
+{
+  assertionAddeds(
+    filter: {
+      assertionId: { equalTo: "0xabc..." }
+      assertionAdopter: { equalTo: "0x123..." }
+    }
+  ) {
+    nodes {
+      block
+      activationBlock
+      logIndex
+    }
+  }
+}
+```
+
+**Fetch AssertionRemoved events since a block:**
+```graphql
+{
+  assertionRemoveds(
+    filter: { block: { greaterThan: 100 } }
+    orderBy: BLOCK_ASC
+  ) {
+    totalCount
+    nodes {
+      block
+      assertionAdopter
+      assertionId
+      deactivationBlock
+      logIndex
+    }
+  }
+}
 ```
 
 ## Scripts
