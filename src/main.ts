@@ -1,8 +1,8 @@
 import { TypeormDatabase } from "@subsquid/typeorm-store";
 import { events } from "./abi/StateOracle.js";
-import { bytes } from "./model/generated/marshal.js";
 import { AssertionAdded } from "./model/generated/assertionAdded.model.js";
 import { AssertionRemoved } from "./model/generated/assertionRemoved.model.js";
+import { bytes } from "./model/generated/marshal.js";
 import { processor } from "./processor.js";
 
 const db = new TypeormDatabase({ supportHotBlocks: false });
