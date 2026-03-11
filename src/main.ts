@@ -23,6 +23,9 @@ processor.run(db, async (ctx) => {
             assertionAdopter: decoded.assertionAdopter,
             assertionId: decoded.assertionId,
             activationBlock: decoded.activationBlock,
+            daVerifier: decoded.daVerifier,
+            metadata: decoded.metadata,
+            proof: decoded.proof,
           }),
         );
         ctx.log.info(
@@ -30,6 +33,7 @@ processor.run(db, async (ctx) => {
             block: block.header.height,
             adopter: decoded.assertionAdopter,
             assertionId: decoded.assertionId,
+            daVerifier: decoded.daVerifier,
           },
           "AssertionAdded",
         );
