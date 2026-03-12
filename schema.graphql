@@ -7,8 +7,8 @@ type AssertionAdded @entity {
   assertionId: String! @index
   activationBlock: BigInt!
   daVerifier: String!
-  metadata: Bytes!
-  proof: Bytes!
+  metadata: String!
+  proof: String!
 }
 
 type AssertionRemoved @entity {
