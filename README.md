@@ -79,6 +79,9 @@ pnpm run serve
       assertionAdopter
       assertionId
       activationBlock
+      daVerifier
+      metadata
+      proof
     }
   }
 }

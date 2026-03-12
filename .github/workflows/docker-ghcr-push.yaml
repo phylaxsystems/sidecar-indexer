@@ -21,7 +21,7 @@ jobs:
     outputs:
       version: ${{ steps.determine-version.outputs.version }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 2
       - name: Determine version tag
@@ -43,6 +43,6 @@ jobs:
     uses: phylaxsystems/actions/.github/workflows/release-docker-ghcr-nodejs.yaml@main
     with:
       app-name: sidecar-indexer
-      node-version: "22.14"
+      node-version: "24.11"
       dockerfile-path: Dockerfile
       version-tag: ${{ needs.get-version.outputs.version }}
