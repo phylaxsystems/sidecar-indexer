@@ -1,5 +1,9 @@
 import { TypeormDatabase } from "@subsquid/typeorm-store";
-import { events } from "./abi/StateOracle.js";
+import {
+  AssertionAddedLegacyEvent,
+  AssertionAddedNewEvent,
+  AssertionRemovedEvent,
+} from "./events.js";
 import { AssertionAdded } from "./model/generated/assertionAdded.model.js";
 import { AssertionRemoved } from "./model/generated/assertionRemoved.model.js";
 import { processor } from "./processor.js";
@@ -12,8 +16,8 @@ processor.run(db, async (ctx) => {
 
   for (const block of ctx.blocks) {
     for (const log of block.logs) {
-      if (log.topics[0] === events.AssertionAdded.topic) {
-        const decoded = events.AssertionAdded.decode(log);
+      if (log.topics[0] === AssertionAddedNewEvent.topic) {
+        const decoded = AssertionAddedNewEvent.decode(log);
         added.push(
           new AssertionAdded({
             id: log.id,
@@ -39,8 +43,34 @@ processor.run(db, async (ctx) => {
         );
       }
 
-      if (log.topics[0] === events.AssertionRemoved.topic) {
-        const decoded = events.AssertionRemoved.decode(log);
+      if (log.topics[0] === AssertionAddedLegacyEvent.topic) {
+        const decoded = AssertionAddedLegacyEvent.decode(log);
+        added.push(
+          new AssertionAdded({
+            id: log.id,
+            block: block.header.height,
+            txHash: log.transactionHash,
+            logIndex: log.logIndex,
+            assertionAdopter: decoded.assertionAdopter,
+            assertionId: decoded.assertionId,
+            activationBlock: decoded.activationBlock,
+            daVerifier: "0x0000000000000000000000000000000000000000",
+            metadata: "0x",
+            proof: "0x",
+          }),
+        );
+        ctx.log.info(
+          {
+            block: block.header.height,
+            adopter: decoded.assertionAdopter,
+            assertionId: decoded.assertionId,
+          },
+          "AssertionAdded (legacy)",
+        );
+      }
+
+      if (log.topics[0] === AssertionRemovedEvent.topic) {
+        const decoded = AssertionRemovedEvent.decode(log);
         removed.push(
           new AssertionRemoved({
             id: log.id,

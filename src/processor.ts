@@ -1,5 +1,9 @@
 import { EvmBatchProcessor } from "@subsquid/evm-processor";
-import { events } from "./abi/StateOracle.js";
+import {
+  AssertionAddedLegacyEvent,
+  AssertionAddedNewEvent,
+  AssertionRemovedEvent,
+} from "./events.js";
 
 const RPC_ENDPOINT = process.env.RPC_ENDPOINT;
 if (!RPC_ENDPOINT) throw new Error("RPC_ENDPOINT env var is required");
@@ -29,7 +33,11 @@ export const processor = new EvmBatchProcessor()
   .setBlockRange({ from: deploymentBlock })
   .addLog({
     address: [STATE_ORACLE_ADDRESS],
-    topic0: [events.AssertionAdded.topic, events.AssertionRemoved.topic],
+    topic0: [
+      AssertionAddedNewEvent.topic,
+      AssertionAddedLegacyEvent.topic,
+      AssertionRemovedEvent.topic,
+    ],
   });
 
 // Optionally use Subsquid gateway for faster historical sync

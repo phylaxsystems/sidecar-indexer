@@ -7,11 +7,7 @@
         "type": "uint128",
         "internalType": "uint128"
       },
-      {
-        "name": "daVerifier",
-        "type": "address",
-        "internalType": "address"
-      },
+      { "name": "daVerifier", "type": "address", "internalType": "address" },
       {
         "name": "maxAssertionsPerAA",
         "type": "uint32",
@@ -24,13 +20,7 @@
     "type": "function",
     "name": "ASSERTION_TIMELOCK_BLOCKS",
     "inputs": [],
-    "outputs": [
-      {
-        "name": "",
-        "type": "uint128",
-        "internalType": "uint128"
-      }
-    ],
+    "outputs": [{ "name": "", "type": "uint128", "internalType": "uint128" }],
     "stateMutability": "view"
   },
   {
@@ -50,13 +40,7 @@
     "type": "function",
     "name": "MAX_ASSERTIONS_PER_AA",
     "inputs": [],
-    "outputs": [
-      {
-        "name": "",
-        "type": "uint128",
-        "internalType": "uint128"
-      }
-    ],
+    "outputs": [{ "name": "", "type": "uint128", "internalType": "uint128" }],
     "stateMutability": "view"
   },
   {
@@ -94,21 +78,9 @@
         "type": "address",
         "internalType": "address"
       },
-      {
-        "name": "assertionId",
-        "type": "bytes32",
-        "internalType": "bytes32"
-      },
-      {
-        "name": "metadata",
-        "type": "bytes",
-        "internalType": "bytes"
-      },
-      {
-        "name": "proof",
-        "type": "bytes",
-        "internalType": "bytes"
-      }
+      { "name": "assertionId", "type": "bytes32", "internalType": "bytes32" },
+      { "name": "metadata", "type": "bytes", "internalType": "bytes" },
+      { "name": "proof", "type": "bytes", "internalType": "bytes" }
     ],
     "outputs": [],
     "stateMutability": "nonpayable"
@@ -124,40 +96,22 @@
       }
     ],
     "outputs": [
-      {
-        "name": "isRegistered",
-        "type": "bool",
-        "internalType": "bool"
-      }
+      { "name": "isRegistered", "type": "bool", "internalType": "bool" }
     ],
     "stateMutability": "view"
   },
   {
     "type": "function",
     "name": "assertionAdopters",
-    "inputs": [
-      {
-        "name": "",
-        "type": "address",
-        "internalType": "address"
-      }
-    ],
+    "inputs": [{ "name": "", "type": "address", "internalType": "address" }],
     "outputs": [
-      {
-        "name": "manager",
-        "type": "address",
-        "internalType": "address"
-      },
+      { "name": "manager", "type": "address", "internalType": "address" },
       {
         "name": "pendingManager",
         "type": "address",
         "internalType": "address"
       },
-      {
-        "name": "assertionCount",
-        "type": "uint32",
-        "internalType": "uint32"
-      }
+      { "name": "assertionCount", "type": "uint32", "internalType": "uint32" }
     ],
     "stateMutability": "view"
   },
@@ -165,11 +119,7 @@
     "type": "function",
     "name": "batch",
     "inputs": [
-      {
-        "name": "calls",
-        "type": "bytes[]",
-        "internalType": "bytes[]"
-      }
+      { "name": "calls", "type": "bytes[]", "internalType": "bytes[]" }
     ],
     "outputs": [],
     "stateMutability": "payable"
@@ -185,11 +135,7 @@
     "type": "function",
     "name": "completeOwnershipHandover",
     "inputs": [
-      {
-        "name": "pendingOwner",
-        "type": "address",
-        "internalType": "address"
-      }
+      { "name": "pendingOwner", "type": "address", "internalType": "address" }
     ],
     "outputs": [],
     "stateMutability": "payable"
@@ -203,11 +149,7 @@
         "type": "address",
         "internalType": "address"
       },
-      {
-        "name": "assertionId",
-        "type": "bytes32",
-        "internalType": "bytes32"
-      }
+      { "name": "assertionId", "type": "bytes32", "internalType": "bytes32" }
     ],
     "outputs": [
       {
@@ -234,11 +176,7 @@
       }
     ],
     "outputs": [
-      {
-        "name": "manager",
-        "type": "address",
-        "internalType": "address"
-      }
+      { "name": "manager", "type": "address", "internalType": "address" }
     ],
     "stateMutability": "view"
   },
@@ -270,18 +208,10 @@
         "type": "address",
         "internalType": "address"
       },
-      {
-        "name": "assertionId",
-        "type": "bytes32",
-        "internalType": "bytes32"
-      }
+      { "name": "assertionId", "type": "bytes32", "internalType": "bytes32" }
     ],
     "outputs": [
-      {
-        "name": "isAssociated",
-        "type": "bool",
-        "internalType": "bool"
-      }
+      { "name": "isAssociated", "type": "bool", "internalType": "bool" }
     ],
     "stateMutability": "view"
   },
@@ -289,11 +219,7 @@
     "type": "function",
     "name": "initialize",
     "inputs": [
-      {
-        "name": "admin",
-        "type": "address",
-        "internalType": "address"
-      },
+      { "name": "admin", "type": "address", "internalType": "address" },
       {
         "name": "_adminVerifiers",
         "type": "address[]",
@@ -314,11 +240,7 @@
       }
     ],
     "outputs": [
-      {
-        "name": "isRegistered",
-        "type": "bool",
-        "internalType": "bool"
-      }
+      { "name": "isRegistered", "type": "bool", "internalType": "bool" }
     ],
     "stateMutability": "view"
   },
@@ -327,11 +249,7 @@
     "name": "owner",
     "inputs": [],
     "outputs": [
-      {
-        "name": "result",
-        "type": "address",
-        "internalType": "address"
-      }
+      { "name": "result", "type": "address", "internalType": "address" }
     ],
     "stateMutability": "view"
   },
@@ -339,18 +257,10 @@
     "type": "function",
     "name": "ownershipHandoverExpiresAt",
     "inputs": [
-      {
-        "name": "pendingOwner",
-        "type": "address",
-        "internalType": "address"
-      }
+      { "name": "pendingOwner", "type": "address", "internalType": "address" }
     ],
     "outputs": [
-      {
-        "name": "result",
-        "type": "uint256",
-        "internalType": "uint256"
-      }
+      { "name": "result", "type": "uint256", "internalType": "uint256" }
     ],
     "stateMutability": "view"
   },
@@ -368,11 +278,7 @@
         "type": "address",
         "internalType": "contract IAdminVerifier"
       },
-      {
-        "name": "data",
-        "type": "bytes",
-        "internalType": "bytes"
-      }
+      { "name": "data", "type": "bytes", "internalType": "bytes" }
     ],
     "outputs": [],
     "stateMutability": "nonpayable"
@@ -399,11 +305,7 @@
         "type": "address",
         "internalType": "address"
       },
-      {
-        "name": "assertionId",
-        "type": "bytes32",
-        "internalType": "bytes32"
-      }
+      { "name": "assertionId", "type": "bytes32", "internalType": "bytes32" }
     ],
     "outputs": [],
     "stateMutability": "nonpayable"
@@ -417,11 +319,7 @@
         "type": "address",
         "internalType": "address"
       },
-      {
-        "name": "assertionId",
-        "type": "bytes32",
-        "internalType": "bytes32"
-      }
+      { "name": "assertionId", "type": "bytes32", "internalType": "bytes32" }
     ],
     "outputs": [],
     "stateMutability": "nonpayable"
@@ -462,11 +360,7 @@
         "type": "address",
         "internalType": "address"
       },
-      {
-        "name": "newManager",
-        "type": "address",
-        "internalType": "address"
-      }
+      { "name": "newManager", "type": "address", "internalType": "address" }
     ],
     "outputs": [],
     "stateMutability": "nonpayable"
@@ -475,11 +369,7 @@
     "type": "function",
     "name": "transferOwnership",
     "inputs": [
-      {
-        "name": "newOwner",
-        "type": "address",
-        "internalType": "address"
-      }
+      { "name": "newOwner", "type": "address", "internalType": "address" }
     ],
     "outputs": [],
     "stateMutability": "payable"
@@ -517,13 +407,13 @@
       {
         "name": "assertionAdopter",
         "type": "address",
-        "indexed": true,
+        "indexed": false,
         "internalType": "address"
       },
       {
         "name": "assertionId",
         "type": "bytes32",
-        "indexed": true,
+        "indexed": false,
         "internalType": "bytes32"
       },
       {
@@ -531,24 +421,6 @@
         "type": "uint256",
         "indexed": false,
         "internalType": "uint256"
-      },
-      {
-        "name": "daVerifier",
-        "type": "address",
-        "indexed": true,
-        "internalType": "contract IDAVerifier"
-      },
-      {
-        "name": "metadata",
-        "type": "bytes",
-        "indexed": false,
-        "internalType": "bytes"
-      },
-      {
-        "name": "proof",
-        "type": "bytes",
-        "indexed": false,
-        "internalType": "bytes"
       }
     ],
     "anonymous": false
@@ -705,110 +577,32 @@
     ],
     "anonymous": false
   },
-  {
-    "type": "error",
-    "name": "AdminVerifierAlreadyRegistered",
-    "inputs": []
-  },
-  {
-    "type": "error",
-    "name": "AdminVerifierNotRegistered",
-    "inputs": []
-  },
-  {
-    "type": "error",
-    "name": "AlreadyInitialized",
-    "inputs": []
-  },
+  { "type": "error", "name": "AdminVerifierAlreadyRegistered", "inputs": [] },
+  { "type": "error", "name": "AdminVerifierNotRegistered", "inputs": [] },
+  { "type": "error", "name": "AlreadyInitialized", "inputs": [] },
   {
     "type": "error",
     "name": "AssertionAdopterAlreadyRegistered",
     "inputs": []
   },
-  {
-    "type": "error",
-    "name": "AssertionAdopterNotRegistered",
-    "inputs": []
-  },
-  {
-    "type": "error",
-    "name": "AssertionAlreadyExists",
-    "inputs": []
-  },
-  {
-    "type": "error",
-    "name": "AssertionDoesNotExist",
-    "inputs": []
-  },
+  { "type": "error", "name": "AssertionAdopterNotRegistered", "inputs": [] },
+  { "type": "error", "name": "AssertionAlreadyExists", "inputs": [] },
+  { "type": "error", "name": "AssertionDoesNotExist", "inputs": [] },
   {
     "type": "error",
     "name": "BatchError",
-    "inputs": [
-      {
-        "name": "result",
-        "type": "bytes",
-        "internalType": "bytes"
-      }
-    ]
+    "inputs": [{ "name": "result", "type": "bytes", "internalType": "bytes" }]
   },
-  {
-    "type": "error",
-    "name": "InvalidAssertionTimelock",
-    "inputs": []
-  },
-  {
-    "type": "error",
-    "name": "InvalidInitialization",
-    "inputs": []
-  },
-  {
-    "type": "error",
-    "name": "InvalidManagerTransferRequest",
-    "inputs": []
-  },
-  {
-    "type": "error",
-    "name": "InvalidProof",
-    "inputs": []
-  },
-  {
-    "type": "error",
-    "name": "NewOwnerIsZeroAddress",
-    "inputs": []
-  },
-  {
-    "type": "error",
-    "name": "NoHandoverRequest",
-    "inputs": []
-  },
-  {
-    "type": "error",
-    "name": "NoPendingManager",
-    "inputs": []
-  },
-  {
-    "type": "error",
-    "name": "NotInitializing",
-    "inputs": []
-  },
-  {
-    "type": "error",
-    "name": "TooManyAssertions",
-    "inputs": []
-  },
-  {
-    "type": "error",
-    "name": "Unauthorized",
-    "inputs": []
-  },
-  {
-    "type": "error",
-    "name": "UnauthorizedManager",
-    "inputs": []
-  },
-  {
-    "type": "error",
-    "name": "UnauthorizedRegistrant",
-    "inputs": []
-  }
+  { "type": "error", "name": "InvalidAssertionTimelock", "inputs": [] },
+  { "type": "error", "name": "InvalidInitialization", "inputs": [] },
+  { "type": "error", "name": "InvalidManagerTransferRequest", "inputs": [] },
+  { "type": "error", "name": "InvalidProof", "inputs": [] },
+  { "type": "error", "name": "NewOwnerIsZeroAddress", "inputs": [] },
+  { "type": "error", "name": "NoHandoverRequest", "inputs": [] },
+  { "type": "error", "name": "NoPendingManager", "inputs": [] },
+  { "type": "error", "name": "NotInitializing", "inputs": [] },
+  { "type": "error", "name": "TooManyAssertions", "inputs": [] },
+  { "type": "error", "name": "Unauthorized", "inputs": [] },
+  { "type": "error", "name": "UnauthorizedManager", "inputs": [] },
+  { "type": "error", "name": "UnauthorizedRegistrant", "inputs": [] }
 ]
