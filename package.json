@@ -8,7 +8,7 @@
     "build": "pnpm run typegen && pnpm run codegen && rm -rf lib && tsc",
     "start": "node --require=dotenv/config lib/main.js",
     "serve": "node --require=dotenv/config lib/api.js",
-    "typegen": "squid-evm-typegen src/abi abi/StateOracle.json",
+    "typegen": "squid-evm-typegen src/abi abi/StateOracle.json && squid-evm-typegen src/abi abi/StateOracleLegacy.json",
     "codegen": "squid-typeorm-codegen",
     "migration:generate": "squid-typeorm-migration generate",
     "migration:apply": "squid-typeorm-migration apply",
