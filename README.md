@@ -204,6 +204,10 @@ See [`infra/local/.env.example`](infra/local/.env.example) for all available var
 | `STATE_ORACLE_ADDRESS` | Yes | StateOracle contract address |
 | `STATE_ORACLE_DEPLOYMENT_BLOCK` | No | Block to start indexing from (default: 0) |
 | `FINALITY_CONFIRMATION` | No | Reorg safety depth in blocks (default: 64) |
+| `RPC_RATE_LIMIT` | No | RPC request rate limit in requests/second (default: 20) |
+| `RPC_CAPACITY` | No | Maximum concurrent in-flight RPC requests (default: 10) |
+| `RPC_MAX_BATCH_CALL_SIZE` | No | Maximum number of calls in a single RPC batch request (default: 10) |
+| `RPC_REQUEST_TIMEOUT_MS` | No | RPC request timeout in milliseconds (default: 5000) |
 | `SQD_GATEWAY` | No | Subsquid Network gateway for faster historical sync |
 | `GRAPHQL_SERVER_PORT` | No | Port for the GraphQL API server (default: 4350) |
 | `DB_*` | No | PostgreSQL connection (defaults match docker-compose) |
