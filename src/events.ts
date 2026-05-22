@@ -4,3 +4,4 @@ import { events as legacyEvents } from "./abi/StateOracleLegacy.js";
 export const AssertionAddedNewEvent = events.AssertionAdded;
 export const AssertionAddedLegacyEvent = legacyEvents.AssertionAdded;
 export const AssertionRemovedEvent = events.AssertionRemoved;
+export const StorageResetEvent = events.StorageReset;

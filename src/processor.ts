@@ -3,6 +3,7 @@ import {
   AssertionAddedLegacyEvent,
   AssertionAddedNewEvent,
   AssertionRemovedEvent,
+  StorageResetEvent,
 } from "./events.js";
 
 const RPC_ENDPOINT = process.env.RPC_ENDPOINT;
@@ -37,6 +38,7 @@ export const processor = new EvmBatchProcessor()
       AssertionAddedNewEvent.topic,
       AssertionAddedLegacyEvent.topic,
       AssertionRemovedEvent.topic,
+      StorageResetEvent.topic,
     ],
   });
 

@@ -20,3 +20,13 @@ type AssertionRemoved @entity {
   assertionId: String! @index
   deactivationBlock: BigInt!
 }
+
+type StorageReset @entity {
+  id: ID!
+  block: Int! @index
+  txHash: String!
+  logIndex: Int!
+  adopter: String! @index
+  storageKey: String! @index
+  resetBlock: BigInt!
+}

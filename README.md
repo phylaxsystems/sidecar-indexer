@@ -1,6 +1,6 @@
 # Sidecar Indexer
 
-Indexes `AssertionAdded` and `AssertionRemoved` events from the StateOracle contract using [Subsquid SDK](https://docs.sqd.ai/) and stores them in PostgreSQL.
+Indexes `AssertionAdded`, `AssertionRemoved`, and `StorageReset` events from the StateOracle contract using [Subsquid SDK](https://docs.sqd.ai/) and stores them in PostgreSQL.
 
 ## Prerequisites
 
@@ -139,6 +139,25 @@ pnpm run serve
       assertionAdopter
       assertionId
       deactivationBlock
+      logIndex
+    }
+  }
+}
+```
+
+**Fetch StorageReset events since a block:**
+```graphql
+{
+  storageResets(
+    filter: { block: { greaterThan: 100 } }
+    orderBy: BLOCK_ASC
+  ) {
+    totalCount
+    nodes {
+      block
+      adopter
+      storageKey
+      resetBlock
       logIndex
     }
   }

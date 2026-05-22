@@ -3,9 +3,11 @@ import {
   AssertionAddedLegacyEvent,
   AssertionAddedNewEvent,
   AssertionRemovedEvent,
+  StorageResetEvent,
 } from "./events.js";
 import { AssertionAdded } from "./model/generated/assertionAdded.model.js";
 import { AssertionRemoved } from "./model/generated/assertionRemoved.model.js";
+import { StorageReset } from "./model/generated/storageReset.model.js";
 import { processor } from "./processor.js";
 
 const db = new TypeormDatabase({ supportHotBlocks: false });
@@ -13,6 +15,7 @@ const db = new TypeormDatabase({ supportHotBlocks: false });
 processor.run(db, async (ctx) => {
   const added: AssertionAdded[] = [];
   const removed: AssertionRemoved[] = [];
+  const resets: StorageReset[] = [];
 
   for (const block of ctx.blocks) {
     for (const log of block.logs) {
@@ -91,9 +94,34 @@ processor.run(db, async (ctx) => {
           "AssertionRemoved",
         );
       }
+
+      if (log.topics[0] === StorageResetEvent.topic) {
+        const decoded = StorageResetEvent.decode(log);
+        resets.push(
+          new StorageReset({
+            id: log.id,
+            block: block.header.height,
+            txHash: log.transactionHash,
+            logIndex: log.logIndex,
+            adopter: decoded.adopter,
+            storageKey: decoded.storageKey,
+            resetBlock: decoded.resetBlock,
+          }),
+        );
+        ctx.log.info(
+          {
+            block: block.header.height,
+            adopter: decoded.adopter,
+            storageKey: decoded.storageKey,
+            resetBlock: decoded.resetBlock,
+          },
+          "StorageReset",
+        );
+      }
     }
   }
 
   if (added.length > 0) await ctx.store.insert(added);
   if (removed.length > 0) await ctx.store.insert(removed);
+  if (resets.length > 0) await ctx.store.insert(resets);
 });
