@@ -22,6 +22,9 @@ const rpcRateLimit = Number(process.env.RPC_RATE_LIMIT ?? "20");
 const rpcCapacity = Number(process.env.RPC_CAPACITY ?? "10");
 const rpcMaxBatchCallSize = Number(process.env.RPC_MAX_BATCH_CALL_SIZE ?? "10");
 const rpcRequestTimeout = Number(process.env.RPC_REQUEST_TIMEOUT_MS ?? "5000");
+const headPollInterval = Number(
+  process.env.RPC_HEAD_POLL_INTERVAL_MS ?? "5000",
+);
 
 export const processor = new EvmBatchProcessor()
   .setRpcEndpoint({
@@ -30,6 +33,9 @@ export const processor = new EvmBatchProcessor()
     capacity: rpcCapacity,
     maxBatchCallSize: rpcMaxBatchCallSize,
     requestTimeout: rpcRequestTimeout,
+  })
+  .setRpcDataIngestionSettings({
+    headPollInterval,
   })
   .setFinalityConfirmation(finalityConfirmation)
   .setFields({
