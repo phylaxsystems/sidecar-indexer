@@ -61,5 +61,11 @@ export const processor = new EvmBatchProcessor()
 // Optionally use Subsquid gateway for faster historical sync
 const SQD_GATEWAY = process.env.SQD_GATEWAY;
 if (SQD_GATEWAY) {
-  processor.setGateway(SQD_GATEWAY);
+  const API_KEY = process.env.SQD_API_KEY;
+  if (!API_KEY)
+    throw new Error("SQD_API_KEY env var is required when using SQD_GATEWAY");
+  processor.setGateway({
+    url: SQD_GATEWAY,
+    apiKey: API_KEY,
+  });
 }
