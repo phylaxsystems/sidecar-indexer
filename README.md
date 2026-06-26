@@ -210,5 +210,6 @@ See [`infra/local/.env.example`](infra/local/.env.example) for all available var
 | `RPC_REQUEST_TIMEOUT_MS` | No | RPC request timeout in milliseconds (default: 5000) |
 | `RPC_HEAD_POLL_INTERVAL_MS` | No | How often the processor polls the RPC for new head blocks in milliseconds (default: 5000) |
 | `SQD_GATEWAY` | No | Subsquid Network gateway for faster historical sync |
+| `SQD_API_KEY` | No | API key for Subsquid Portal (Gateway) |
 | `GRAPHQL_SERVER_PORT` | No | Port for the GraphQL API server (default: 4350) |
 | `DB_*` | No | PostgreSQL connection (defaults match docker-compose) |
