@@ -1,43 +1,59 @@
-import { EvmBatchProcessor } from "@subsquid/evm-processor";
+import {
+  EvmFallbackDataSourceBuilder,
+  type EvmFallbackSourceConfig,
+} from "@subsquid/squid-sdk/evm/fallback";
+import { loadConfig } from "./config.js";
 import {
   AssertionAddedLegacyEvent,
   AssertionAddedNewEvent,
   AssertionRemovedEvent,
   StorageResetEvent,
 } from "./events.js";
+import { toPortalUrl } from "./legacy-portal.js";
 
-const RPC_ENDPOINT = process.env.RPC_ENDPOINT;
-if (!RPC_ENDPOINT) throw new Error("RPC_ENDPOINT env var is required");
+const config = loadConfig();
 
-const STATE_ORACLE_ADDRESS = process.env.STATE_ORACLE_ADDRESS;
-if (!STATE_ORACLE_ADDRESS)
-  throw new Error("STATE_ORACLE_ADDRESS env var is required");
+const rpcSource = {
+  type: "rpc",
+  name: "rpc",
+  url: config.rpcEndpoint,
+  network: config.rpcNetwork,
+  rateLimit: config.rpcRateLimit,
+  capacity: config.rpcCapacity,
+  strideSize: config.rpcStrideSize,
+  strideConcurrency: config.rpcStrideConcurrency,
+  rpc:
+    config.finalityConfirmation == null
+      ? undefined
+      : { finalityConfirmation: config.finalityConfirmation },
+} satisfies EvmFallbackSourceConfig;
 
-const deploymentBlock = Number(
-  process.env.STATE_ORACLE_DEPLOYMENT_BLOCK ?? "0",
-);
+const sources: EvmFallbackSourceConfig[] = [rpcSource];
 
-const finalityConfirmation = Number(process.env.FINALITY_CONFIRMATION ?? "64");
-const rpcRateLimit = Number(process.env.RPC_RATE_LIMIT ?? "20");
-const rpcCapacity = Number(process.env.RPC_CAPACITY ?? "10");
-const rpcMaxBatchCallSize = Number(process.env.RPC_MAX_BATCH_CALL_SIZE ?? "10");
-const rpcRequestTimeout = Number(process.env.RPC_REQUEST_TIMEOUT_MS ?? "5000");
-const headPollInterval = Number(
-  process.env.RPC_HEAD_POLL_INTERVAL_MS ?? "5000",
-);
+if (config.sqdGateway && config.sqdApiKey) {
+  const portalSource = {
+    type: "portal",
+    name: "portal",
+    url: toPortalUrl(config.sqdGateway),
+    http: {
+      headers: {
+        Authorization: `Bearer ${config.sqdApiKey}`,
+        Token: config.sqdApiKey,
+      },
+    },
+  } satisfies EvmFallbackSourceConfig;
 
-export const processor = new EvmBatchProcessor()
-  .setRpcEndpoint({
-    url: RPC_ENDPOINT,
-    rateLimit: rpcRateLimit,
-    capacity: rpcCapacity,
-    maxBatchCallSize: rpcMaxBatchCallSize,
-    requestTimeout: rpcRequestTimeout,
-  })
-  .setRpcDataIngestionSettings({
-    headPollInterval,
-  })
-  .setFinalityConfirmation(finalityConfirmation)
+  // Portal is the fastest primary for native finality. Confirmation mode keeps
+  // RPC primary so its exact depth is honored, with Portal as a safer fallback.
+  if (config.finalityConfirmation == null) {
+    sources.unshift(portalSource);
+  } else {
+    sources.push(portalSource);
+  }
+}
+
+export const dataSource = new EvmFallbackDataSourceBuilder()
+  .setDownstreamSources(sources)
   .setFields({
     log: {
       topics: true,
@@ -47,25 +63,16 @@ export const processor = new EvmBatchProcessor()
       logIndex: true,
     },
   })
-  .setBlockRange({ from: deploymentBlock })
+  .setBlockRange({ from: config.stateOracleDeploymentBlock })
   .addLog({
-    address: [STATE_ORACLE_ADDRESS],
-    topic0: [
-      AssertionAddedNewEvent.topic,
-      AssertionAddedLegacyEvent.topic,
-      AssertionRemovedEvent.topic,
-      StorageResetEvent.topic,
-    ],
-  });
-
-// Optionally use Subsquid gateway for faster historical sync
-const SQD_GATEWAY = process.env.SQD_GATEWAY;
-if (SQD_GATEWAY) {
-  const API_KEY = process.env.SQD_API_KEY;
-  if (!API_KEY)
-    throw new Error("SQD_API_KEY env var is required when using SQD_GATEWAY");
-  processor.setGateway({
-    url: SQD_GATEWAY,
-    apiKey: API_KEY,
-  });
-}
+    where: {
+      address: [config.stateOracleAddress],
+      topic0: [
+        AssertionAddedNewEvent.topic,
+        AssertionAddedLegacyEvent.topic,
+        AssertionRemovedEvent.topic,
+        StorageResetEvent.topic,
+      ],
+    },
+  })
+  .build();

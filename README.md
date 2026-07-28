@@ -185,7 +185,9 @@ schema.graphql           # Entity definitions (input for codegen)
 src/
   main.ts                # Entry point: batch handler that decodes and stores events
   api.ts                 # PostGraphile GraphQL API server
-  processor.ts           # Subsquid EvmBatchProcessor configuration
+  processor.ts           # Subsquid data source configuration (RPC + Portal fallback)
+  config.ts              # Environment variable parsing and validation
+  legacy-portal.ts       # Legacy gateway URL to Portal dataset translation
   abi/                   # Generated typed event decoders (gitignored)
   model/                 # Generated TypeORM entities (gitignored)
 db/migrations/           # Database migrations
@@ -201,15 +203,18 @@ See [`infra/local/.env.example`](infra/local/.env.example) for all available var
 | Variable | Required | Description |
 |---|---|---|
 | `RPC_ENDPOINT` | Yes | Ethereum-compatible RPC URL (http/https/ws/wss) |
+| `RPC_NETWORK` | No | Subsquid network preset or EVM chain identifier (default: `ethereum-mainnet`) |
 | `STATE_ORACLE_ADDRESS` | Yes | StateOracle contract address |
 | `STATE_ORACLE_DEPLOYMENT_BLOCK` | No | Block to start indexing from (default: 0) |
-| `FINALITY_CONFIRMATION` | No | Reorg safety depth in blocks (default: 64) |
+| `FINALITY_CONFIRMATION` | No | Fixed reorg-safety depth in blocks. When omitted, the indexer uses the RPC or Portal native finalized head. |
 | `RPC_RATE_LIMIT` | No | RPC request rate limit in requests/second (default: 20) |
 | `RPC_CAPACITY` | No | Maximum concurrent in-flight RPC requests (default: 10) |
-| `RPC_MAX_BATCH_CALL_SIZE` | No | Maximum number of calls in a single RPC batch request (default: 10) |
-| `RPC_REQUEST_TIMEOUT_MS` | No | RPC request timeout in milliseconds (default: 5000) |
-| `RPC_HEAD_POLL_INTERVAL_MS` | No | How often the processor polls the RPC for new head blocks in milliseconds (default: 5000) |
-| `SQD_GATEWAY` | No | Subsquid Network gateway for faster historical sync |
-| `SQD_API_KEY` | No | API key for Subsquid Portal (Gateway) |
+| `RPC_STRIDE_SIZE` | No | Number of consecutive blocks scheduled in each historical ingestion job (default: 5). This is not the JSON-RPC batch-call size. |
+| `RPC_STRIDE_CONCURRENCY` | No | Maximum historical ingestion jobs processed in parallel (default: 5). Increasing it can speed up catch-up while adding RPC and memory pressure; `RPC_CAPACITY` and `RPC_RATE_LIMIT` still bound the client. |
+| `SQD_GATEWAY` | No | Subsquid v2 gateway or Portal dataset URL used for accelerated ingestion and RPC fallback |
+| `SQD_API_KEY` | Conditional | Subsquid API key required when `SQD_GATEWAY` is configured |
 | `GRAPHQL_SERVER_PORT` | No | Port for the GraphQL API server (default: 4350) |
 | `DB_*` | No | PostgreSQL connection (defaults match docker-compose) |
+
+Existing deployments that set `FINALITY_CONFIRMATION` continue to use that
+confirmation depth. Unset it to use native finality.
