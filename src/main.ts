@@ -3,7 +3,6 @@ import {
   AssertionAddedLegacyEvent,
   AssertionAddedNewEvent,
   AssertionRemovedEvent,
-  AssertionRemovedLegacyEvent,
   decodeAssertionRemoved,
   StorageResetEvent,
 } from "./events.js";
@@ -74,10 +73,7 @@ processor.run(db, async (ctx) => {
         );
       }
 
-      if (
-        log.topics[0] === AssertionRemovedEvent.topic ||
-        log.topics[0] === AssertionRemovedLegacyEvent.topic
-      ) {
+      if (log.topics[0] === AssertionRemovedEvent.topic) {
         const decoded = decodeAssertionRemoved(log);
         removed.push(
           new AssertionRemoved({
