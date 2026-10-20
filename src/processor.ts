@@ -3,6 +3,7 @@ import {
   AssertionAddedLegacyEvent,
   AssertionAddedNewEvent,
   AssertionRemovedEvent,
+  AssertionRemovedLegacyEvent,
   StorageResetEvent,
 } from "./events.js";
 
@@ -54,6 +55,7 @@ export const processor = new EvmBatchProcessor()
       AssertionAddedNewEvent.topic,
       AssertionAddedLegacyEvent.topic,
       AssertionRemovedEvent.topic,
+      AssertionRemovedLegacyEvent.topic,
       StorageResetEvent.topic,
     ],
   });
