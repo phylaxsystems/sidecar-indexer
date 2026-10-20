@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "lint": "biome check .",
+    "test": "pnpm run typegen && node --experimental-strip-types --import ./src/test-register.mjs --test src/*.test.ts",
     "lint:fix": "biome check --write .",
     "build": "pnpm run typegen && pnpm run codegen && rm -rf lib && tsc",
     "start": "node --require=dotenv/config lib/main.js",

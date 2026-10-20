@@ -3,6 +3,7 @@ import {
   AssertionAddedLegacyEvent,
   AssertionAddedNewEvent,
   AssertionRemovedEvent,
+  decodeAssertionRemoved,
   StorageResetEvent,
 } from "./events.js";
 import { AssertionAdded } from "./model/generated/assertionAdded.model.js";
@@ -73,7 +74,7 @@ processor.run(db, async (ctx) => {
       }
 
       if (log.topics[0] === AssertionRemovedEvent.topic) {
-        const decoded = AssertionRemovedEvent.decode(log);
+        const decoded = decodeAssertionRemoved(log);
         removed.push(
           new AssertionRemoved({
             id: log.id,
