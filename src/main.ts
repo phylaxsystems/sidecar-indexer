@@ -1,4 +1,7 @@
-import { TypeormDatabase } from "@subsquid/typeorm-store";
+import { createLogger } from "@subsquid/logger";
+import { augmentBlock } from "@subsquid/squid-sdk/evm/objects";
+import { run } from "@subsquid/squid-sdk/processor";
+import { TypeormDatabase } from "@subsquid/squid-sdk/store/typeorm";
 import {
   AssertionAddedLegacyEvent,
   AssertionAddedNewEvent,
@@ -9,17 +12,19 @@ import {
 import { AssertionAdded } from "./model/generated/assertionAdded.model.js";
 import { AssertionRemoved } from "./model/generated/assertionRemoved.model.js";
 import { StorageReset } from "./model/generated/storageReset.model.js";
-import { processor } from "./processor.js";
+import { dataSource } from "./processor.js";
 
 const db = new TypeormDatabase({ supportHotBlocks: false });
+const processorLog = createLogger("sqd:processor");
 
-processor.run(db, async (ctx) => {
+run(dataSource, db, async (ctx) => {
   const added: AssertionAdded[] = [];
   const removed: AssertionRemoved[] = [];
   const resets: StorageReset[] = [];
 
   for (const block of ctx.blocks) {
-    for (const log of block.logs) {
+    // augmentBlock links entities and derives the log `id` used as the entity key
+    for (const log of augmentBlock(block).logs) {
       if (log.topics[0] === AssertionAddedNewEvent.topic) {
         const decoded = AssertionAddedNewEvent.decode(log);
         added.push(
@@ -36,7 +41,7 @@ processor.run(db, async (ctx) => {
             proof: decoded.proof,
           }),
         );
-        ctx.log.info(
+        processorLog.info(
           {
             block: block.header.height,
             adopter: decoded.assertionAdopter,
@@ -63,7 +68,7 @@ processor.run(db, async (ctx) => {
             proof: "0x",
           }),
         );
-        ctx.log.info(
+        processorLog.info(
           {
             block: block.header.height,
             adopter: decoded.assertionAdopter,
@@ -86,7 +91,7 @@ processor.run(db, async (ctx) => {
             deactivationBlock: decoded.deactivationBlock,
           }),
         );
-        ctx.log.info(
+        processorLog.info(
           {
             block: block.header.height,
             adopter: decoded.assertionAdopter,
@@ -109,7 +114,7 @@ processor.run(db, async (ctx) => {
             resetBlock: decoded.resetBlock,
           }),
         );
-        ctx.log.info(
+        processorLog.info(
           {
             block: block.header.height,
             adopter: decoded.adopter,
