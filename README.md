@@ -8,6 +8,18 @@ Indexes `AssertionAdded`, `AssertionRemoved`, and `StorageReset` events from the
 - pnpm
 - Docker (for PostgreSQL)
 
+## Shadow deployments
+
+Every push to `main` publishes the indexer image, then updates the ETH and Linea
+Shadow image tags in `argocd-apps`. Argo CD automatically applies those revisions.
+The deploy job reuses the SDK's GitOps workflow, including image verification,
+stale-build protection, and conflict-safe pushes.
+
+The repository must be allowed to call the private SDK workflow and expose
+`ARGOCD_DEPLOYER_PRIVATE_KEY` to the `shadow-layer` deployment job (as a repository,
+organization, or environment secret). Manual Docker workflow dispatches build
+without publishing and therefore do not deploy. Production tags are separate.
+
 ## Setup
 
 ```bash
