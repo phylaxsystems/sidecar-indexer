@@ -46,3 +46,19 @@ jobs:
       node-version: "24.11"
       dockerfile-path: Dockerfile
       version-tag: ${{ needs.get-version.outputs.version }}
+
+  deploy-shadow:
+    # The publisher only pushes images for push events; manual builds do not
+    # produce a deployable tag. Wait for publication before updating GitOps.
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: [get-version, docker-ghcr-push-sidecar-indexer]
+    uses: phylaxsystems/credible-sdk/.github/workflows/gitops-deploy.yaml@main
+    with:
+      image-tag: ${{ needs.get-version.outputs.version }}
+      releases: |
+        [
+          {"values-path":"applications/shadow-layer/eth/sidecar-indexer/values.yaml","image-repository":"ghcr.io/phylaxsystems/sidecar-indexer/sidecar-indexer"},
+          {"values-path":"applications/shadow-layer/linea/sidecar-indexer/values.yaml","image-repository":"ghcr.io/phylaxsystems/sidecar-indexer/sidecar-indexer"}
+        ]
+    secrets:
+      ARGOCD_DEPLOYER_PRIVATE_KEY: ${{ secrets.ARGOCD_DEPLOYER_PRIVATE_KEY }}
